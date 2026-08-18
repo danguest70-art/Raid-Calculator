@@ -1,0 +1,14 @@
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\bin\Debug\net10.0\RaidCalculator.exe
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\bin\Debug\net10.0\RaidCalculator.deps.json
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\bin\Debug\net10.0\RaidCalculator.runtimeconfig.json
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\bin\Debug\net10.0\RaidCalculator.dll
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\bin\Debug\net10.0\RaidCalculator.pdb
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\RaidCalculator.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\RaidCalculator.AssemblyInfoInputs.cache
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\RaidCalculator.AssemblyInfo.cs
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\RaidCalculator.csproj.CoreCompileInputs.cache
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\RaidCalculator.dll
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\refint\RaidCalculator.dll
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\RaidCalculator.pdb
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\RaidCalculator.genruntimeconfig.cache
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\ref\RaidCalculator.dll
