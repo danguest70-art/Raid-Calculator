@@ -6,39 +6,52 @@ Champion[] champions =
      new Champion("A", 160,0),
      new Champion("B", 90,0),
      new Champion("C", 70,0),
-     new Champion("D", 120,0),
-     new Champion("E", 150,0),
-     new Champion("F", 25,0)
 };
 
-foreach (Champion champion in champions)
+for (int i = 0; i < 4; i++)
 {
-     double turnMeterPerTic = champion.speed * 0.07;
-
-
-     for (int i = 0; i < 4; i++)
+     var anyAbove100 = false;
+          
+     foreach (Champion champion in champions)
      {
+          double turnMeterPerTic = champion.GetTurnMeterPerTic();
 
-
-          if (champion.turnMeter > 100)
+          if (champion.TurnMeter > 100)
           {
-               champion.turnMeter = champion.turnMeter + (champion.speed * 0.07);
+               anyAbove100 = true;
+               break;
           }
-          else
+     }
+
+     if (anyAbove100)
+     {
+          AddOneTicTurnMeter(champions);
+     }
+     else
+     {
+          foreach (Champion champion in champions)
           {
-               var turnMeterNew = 100 - champion.turnMeter;
-
-               var turnMeterPercent = Math.Ceiling(turnMeterNew / turnMeterPerTic);
-               var ticsTo100 =
-               
-
-
+               champion.TicsTo100 = Math.Ceiling((100 - champion.TurnMeter) / champion.GetTurnMeterPerTic()); 
           }
+          var championClosestTo100 =  champions.OrderBy(champion => champion.TicsTo100).FirstOrDefault();
 
-
+          foreach (Champion champion in champions)
+          {
+               champion.TurnMeter = champion.TurnMeter + (championClosestTo100.TicsTo100 * champion.GetTurnMeterPerTic() );
+          }
+          
+          var nextChampion = champions.MaxBy(champion => champion.TurnMeter);
+          Console.WriteLine($"champion:{nextChampion.Name}, TM:{nextChampion.TurnMeter}");
+          nextChampion.TurnMeter = 0;
      }
 }
 
-
+void AddOneTicTurnMeter(Champion[] champions)
+{
+     foreach (Champion champion in champions)
+     {
+          champion.TurnMeter = champion.TurnMeter + champion.GetTurnMeterPerTic();
+     }
+}
 
 

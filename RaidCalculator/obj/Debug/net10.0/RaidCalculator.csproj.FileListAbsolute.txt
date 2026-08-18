@@ -12,3 +12,4 @@ C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\ref
 C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\RaidCalculator.pdb
 C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\RaidCalculator.genruntimeconfig.cache
 C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\ref\RaidCalculator.dll
+C:\Users\dangu\RiderProjects\RaidCalculator\RaidCalculator\obj\Debug\net10.0\RaidCalculator.sourcelink.json

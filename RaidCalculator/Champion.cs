@@ -3,13 +3,19 @@ namespace RaidCalculator;
 public class Champion
 {
     public string Name;
-    public double speed;
-    public double turnMeter;
+    public double Speed;
+    public double TurnMeter;
+    public double TicsTo100;
     
     public Champion(string name, double speed, double turnMeter)
     {
         Name = name;
-        this.speed = speed;
-        this.turnMeter = turnMeter;
+        Speed = speed;
+        TurnMeter = turnMeter;
+    }
+
+    public double GetTurnMeterPerTic()
+    { 
+        return Speed * 0.07;
     }
 }

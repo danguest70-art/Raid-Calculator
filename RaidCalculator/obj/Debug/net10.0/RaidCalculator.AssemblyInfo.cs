@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RaidCalculator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ee3c3cb33c9821c695584e2738c98245be38a94")]
 [assembly: System.Reflection.AssemblyProductAttribute("RaidCalculator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RaidCalculator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
