@@ -6,9 +6,10 @@ Champion[] champions =
      new Champion("A", 160,0, ConsoleColor.Green),
      new Champion("B", 90,0, ConsoleColor.Red),
      new Champion("C", 70,0, ConsoleColor.Blue),
+     new Champion("D", 200,0, ConsoleColor.Yellow),
 };
 
-for (int i = 0; i < 4; i++)
+for (int i = 0; i < 10; i++)
 {
     var anyAbove100 = false;
 
@@ -40,11 +41,11 @@ for (int i = 0; i < 4; i++)
         {
             champion.TurnMeter = champion.TurnMeter + (championClosestTo100.TicsTo100 * champion.GetTurnMeterPerTic());
         }
-
-        var nextChampion = champions.MaxBy(champion => champion.TurnMeter);
-        OutputHelper.OutputStepResults(champions);
-        nextChampion.TurnMeter = 0;
     }
+
+    var nextChampion = champions.MaxBy(champion => champion.TurnMeter);
+    OutputHelper.OutputStepResults(champions);
+    nextChampion.TurnMeter = 0;
 }
 
 
