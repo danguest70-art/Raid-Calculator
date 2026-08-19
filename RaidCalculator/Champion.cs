@@ -15,8 +15,5 @@ public class Champion
         OutputColour = outputColour;
     }
 
-    public double GetTurnMeterPerTic()
-    { 
-        return Speed * 0.07;
-    }
+    public double PerTicTurnMeter() => Speed * 0.07;
 }

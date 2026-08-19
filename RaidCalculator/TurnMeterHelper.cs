@@ -26,7 +26,7 @@ public static class TurnMeterHelper
     {
         foreach (Champion champion in champions)
         {
-            champion.TurnMeter = champion.TurnMeter + champion.GetTurnMeterPerTic();
+            champion.TurnMeter = champion.TurnMeter + champion.PerTicTurnMeter();
         }
     }
 
@@ -37,14 +37,14 @@ public static class TurnMeterHelper
 
     private static double GetMinTicsTo100(Champion[] champions)
     {
-        return champions.Min(c => Math.Ceiling((100 - c.TurnMeter) / c.GetTurnMeterPerTic()));
+        return champions.Min(c => Math.Ceiling((100 - c.TurnMeter) / c.PerTicTurnMeter()));
     }
 
     private static void UpdateChampionsTurnMeter(Champion[] champions, double ticsTo100)
     {
         foreach (Champion champion in champions)
         {
-            champion.TurnMeter = champion.TurnMeter + (ticsTo100 * champion.GetTurnMeterPerTic());
+            champion.TurnMeter = champion.TurnMeter + (ticsTo100 * champion.PerTicTurnMeter());
         }
     }
 }
