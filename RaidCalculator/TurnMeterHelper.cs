@@ -2,14 +2,6 @@
 
 public static class TurnMeterHelper
 {
-    public static void AddOneTicTurnMeter(Champion[] champions)
-    {
-        foreach (Champion champion in champions)
-        {
-            champion.TurnMeter = champion.TurnMeter + champion.GetTurnMeterPerTic();
-        }
-    }
-
     public static void CalculateNextTurn(Champion[] champions)
     {
         var anyAbove100 = CheckForAnyChampionsAbove100TurnMeter(champions);
@@ -28,6 +20,14 @@ public static class TurnMeterHelper
         var nextChampion = champions.MaxBy(champion => champion.TurnMeter);
         OutputHelper.OutputStepResults(champions);
         nextChampion.TurnMeter = 0;
+    }
+
+    public static void AddOneTicTurnMeter(Champion[] champions)
+    {
+        foreach (Champion champion in champions)
+        {
+            champion.TurnMeter = champion.TurnMeter + champion.GetTurnMeterPerTic();
+        }
     }
 
     private static bool CheckForAnyChampionsAbove100TurnMeter(Champion[] champions)
