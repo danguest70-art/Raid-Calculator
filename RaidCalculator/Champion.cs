@@ -5,7 +5,6 @@ public class Champion
     public string Name;
     public double Speed;
     public double TurnMeter;
-    public double TicsTo100;
     public ConsoleColor OutputColour;
 
     public Champion(string name, double speed, double turnMeter, ConsoleColor outputColour)

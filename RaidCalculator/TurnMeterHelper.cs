@@ -4,17 +4,17 @@ public static class TurnMeterHelper
 {
     public static void CalculateNextTurn(Champion[] champions)
     {
-        var anyAbove100 = CheckForAnyChampionsAbove100TurnMeter(champions);
+        var anyAbove100TurnMeter = CheckForAnyChampionsAbove100TurnMeter(champions);
 
-        if (anyAbove100)
+        if (anyAbove100TurnMeter)
         {
             TurnMeterHelper.AddOneTicTurnMeter(champions);
         }
         else
         {
-            var championClosestTo100 = GetChampionClosestTo100(champions);
+            var minTicksTo100TurnMeter = GetMinTicsTo100(champions);
 
-            UpdateChampionsTurnMeter(champions, championClosestTo100.TicsTo100);
+            UpdateChampionsTurnMeter(champions, minTicksTo100TurnMeter);
         }
 
         var nextChampion = champions.MaxBy(champion => champion.TurnMeter);
@@ -32,28 +32,12 @@ public static class TurnMeterHelper
 
     private static bool CheckForAnyChampionsAbove100TurnMeter(Champion[] champions)
     {
-        var anyAbove100 = false;
-
-        foreach (Champion champion in champions)
-        {
-            if (champion.TurnMeter > 100)
-            {
-                anyAbove100 = true;
-                break;
-            }
-        }
-
-        return anyAbove100;
+        return champions.Any(c => c.TurnMeter > 100);
     }
 
-    private static Champion GetChampionClosestTo100(Champion[] champions)
+    private static double GetMinTicsTo100(Champion[] champions)
     {
-        foreach (Champion champion in champions)
-        {
-            champion.TicsTo100 = Math.Ceiling((100 - champion.TurnMeter) / champion.GetTurnMeterPerTic());
-        }
-
-        return champions.OrderBy(champion => champion.TicsTo100).FirstOrDefault()!;
+        return champions.Min(c => Math.Ceiling((100 - c.TurnMeter) / c.GetTurnMeterPerTic()));
     }
 
     private static void UpdateChampionsTurnMeter(Champion[] champions, double ticsTo100)
