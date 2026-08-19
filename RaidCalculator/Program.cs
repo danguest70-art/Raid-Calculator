@@ -42,7 +42,7 @@ for (int i = 0; i < 4; i++)
         }
 
         var nextChampion = champions.MaxBy(champion => champion.TurnMeter);
-        TurnMeterHelper.OutputStepResults(champions);
+        OutputHelper.OutputStepResults(champions);
         nextChampion.TurnMeter = 0;
     }
 }
