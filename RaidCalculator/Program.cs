@@ -11,41 +11,7 @@ Champion[] champions =
 
 for (int i = 0; i < 10; i++)
 {
-    var anyAbove100 = false;
-
-    foreach (Champion champion in champions)
-    {
-        double turnMeterPerTic = champion.GetTurnMeterPerTic();
-
-        if (champion.TurnMeter > 100)
-        {
-            anyAbove100 = true;
-            break;
-        }
-    }
-
-    if (anyAbove100)
-    {
-        TurnMeterHelper.AddOneTicTurnMeter(champions);
-    }
-    else
-    {
-        foreach (Champion champion in champions)
-        {
-            champion.TicsTo100 = Math.Ceiling((100 - champion.TurnMeter) / champion.GetTurnMeterPerTic());
-        }
-
-        var championClosestTo100 = champions.OrderBy(champion => champion.TicsTo100).FirstOrDefault();
-
-        foreach (Champion champion in champions)
-        {
-            champion.TurnMeter = champion.TurnMeter + (championClosestTo100.TicsTo100 * champion.GetTurnMeterPerTic());
-        }
-    }
-
-    var nextChampion = champions.MaxBy(champion => champion.TurnMeter);
-    OutputHelper.OutputStepResults(champions);
-    nextChampion.TurnMeter = 0;
+    TurnMeterHelper.CalculateNextTurn(champions);
 }
 
 
