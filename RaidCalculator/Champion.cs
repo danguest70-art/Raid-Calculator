@@ -6,12 +6,14 @@ public class Champion
     public double Speed;
     public double TurnMeter;
     public double TicsTo100;
-    
-    public Champion(string name, double speed, double turnMeter)
+    public ConsoleColor OutputColour;
+
+    public Champion(string name, double speed, double turnMeter, ConsoleColor outputColour)
     {
         Name = name;
         Speed = speed;
         TurnMeter = turnMeter;
+        OutputColour = outputColour;
     }
 
     public double GetTurnMeterPerTic()
