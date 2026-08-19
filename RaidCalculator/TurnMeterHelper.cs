@@ -12,7 +12,7 @@ public static class TurnMeterHelper
 
     public static void CalculateNextTurn(Champion[] champions)
     {
-        var anyAbove100 = CheckForAnyChampionsAbove100(champions);
+        var anyAbove100 = CheckForAnyChampionsAbove100TurnMeter(champions);
 
         if (anyAbove100)
         {
@@ -30,7 +30,7 @@ public static class TurnMeterHelper
         nextChampion.TurnMeter = 0;
     }
 
-    private static bool CheckForAnyChampionsAbove100(Champion[] champions)
+    private static bool CheckForAnyChampionsAbove100TurnMeter(Champion[] champions)
     {
         var anyAbove100 = false;
 
