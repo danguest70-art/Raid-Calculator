@@ -8,7 +8,7 @@ public static class TurnMeterHelper
 
         if (anyAbove100TurnMeter)
         {
-            TurnMeterHelper.AddOneTicTurnMeter(champions);
+            AddOneTicTurnMeter(champions);
         }
         else
         {
@@ -20,13 +20,16 @@ public static class TurnMeterHelper
         var nextChampion = champions.MaxBy(champion => champion.TurnMeter);
         OutputHelper.OutputStepResults(champions);
         nextChampion.TurnMeter = 0;
+        
+        ApplyEffects(champions, nextChampion);
+        ReduceEffectCoolDowns(nextChampion);
     }
 
     public static void AddOneTicTurnMeter(Champion[] champions)
     {
         foreach (Champion champion in champions)
         {
-            champion.TurnMeter = champion.TurnMeter + champion.PerTicTurnMeter();
+            champion.TurnMeter += champion.PerTicTurnMeter();
         }
     }
 
@@ -44,7 +47,25 @@ public static class TurnMeterHelper
     {
         foreach (Champion champion in champions)
         {
-            champion.TurnMeter = champion.TurnMeter + (ticsTo100 * champion.PerTicTurnMeter());
+            champion.TurnMeter += (ticsTo100 * champion.PerTicTurnMeter());
+        }
+    }
+
+    private static void ApplyEffects(Champion[] champions, Champion caster)
+    {
+        var applicableEffect = caster.Effects.Where(e => e.CurrentCoolDown == 0).OrderByDescending(e => e.Priority).FirstOrDefault();
+
+        if (applicableEffect != null)
+        {
+            applicableEffect.ApplyEffect(champions, caster);
+        }
+    }
+
+    private static void ReduceEffectCoolDowns(Champion caster)
+    {
+        foreach (var effect in caster.Effects)
+        {
+            effect.ReduceCoolDown();
         }
     }
 }
