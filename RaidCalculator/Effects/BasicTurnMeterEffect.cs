@@ -6,7 +6,7 @@ public class BasicTurnMeterEffect : Effect
     {
         Name = "Green Sword";
         Priority = 2;
-        EffectCoolDown = 3;
+        EffectCoolDown = 5;
     }
     
     // This effect will increase all the allies Turn Meter by 15%

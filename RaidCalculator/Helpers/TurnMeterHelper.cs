@@ -2,7 +2,7 @@
 
 public static class TurnMeterHelper
 {
-    public static void CalculateNextTurn(Champion[] champions)
+    public static Champion CalculateNextTurn(Champion[] champions)
     {
         var championWithExtraTurn = GetChampionWithExtraTurn(champions);
         Champion nextChampion;
@@ -34,15 +34,8 @@ public static class TurnMeterHelper
         nextChampion.TurnMeter = 0;
         
         nextChampion.IncrementTurns();
-        
-        var usedEffect = ApplyEffects(champions, nextChampion);
 
-        if (usedEffect != null)
-        {
-            Console.WriteLine($"Champion {nextChampion.Name} used effect: {usedEffect.Name}");
-        }
-        
-        ReduceEffectCoolDowns(nextChampion);
+        return nextChampion;
     }
 
     public static void AddOneTicTurnMeter(Champion[] champions)
@@ -70,27 +63,6 @@ public static class TurnMeterHelper
             champion.TurnMeter += (ticsTo100 * champion.PerTicTurnMeter());
         }
     }
-
-    private static Effect? ApplyEffects(Champion[] champions, Champion caster)
-    {
-        var applicableEffect = caster.Effects.Where(e => e.CurrentCoolDown == 0).OrderByDescending(e => e.Priority).FirstOrDefault();
-
-        if (applicableEffect != null)
-        {
-            applicableEffect.ApplyEffect(champions, caster);
-        }
-
-        return applicableEffect;
-    }
-
-    private static void ReduceEffectCoolDowns(Champion caster)
-    {
-        foreach (var effect in caster.Effects)
-        {
-            effect.ReduceCoolDown();
-        }
-    }
-
 
     private static Champion? GetChampionWithExtraTurn(Champion[] champions)
     {
