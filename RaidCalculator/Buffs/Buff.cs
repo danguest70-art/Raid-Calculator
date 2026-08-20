@@ -2,32 +2,41 @@ namespace RaidCalculator.Buffs;
 
 public abstract class Buff
 {
-    public int BuffCoolDown = 0;
-    public int CurrentCoolDown = 0;
-    public int BuffDuration = 0;
     public string Name;
-    public int Priority = 0;
+    public int BuffDuration;
+    public int BuffCoolDown;
+    public int CurrentCoolDown;
+    public int Priority;
 
-    public void SetBuffs(Champion[] champions, Champion? caster = null)
+    protected Buff(string name, int duration, int cooldown, int priority)
     {
-        if (CurrentCoolDown == 0)
-        {
-            var affectedChampions = AppliesTo(champions);
-            SetBuffsInternal(affectedChampions, caster);
-
-            CurrentCoolDown = BuffCoolDown;
-        }
+        Name = name;
+        BuffDuration = duration;
+        BuffCoolDown = cooldown;
+        Priority = priority;
     }
-    
+
+    public void ApplyBuff(Champion[] champions, Champion? caster = null)
+    {
+        if (CurrentCoolDown != 0)
+        {
+            return;
+        }
+
+        var affectedChampions = AppliesTo(champions);
+        ApplyBuffInternal(affectedChampions, caster);
+        CurrentCoolDown = BuffCoolDown;
+    }
+
     public void ReduceCoolDown()
     {
-        if (CurrentCoolDown >= 1)
+        if (CurrentCoolDown > 0)
         {
-            CurrentCoolDown -= 1;
+            CurrentCoolDown--;
         }
     }
 
-    public abstract void SetBuffsInternal(Champion[] champions, Champion? caster = null);
+    public abstract void ApplyBuffInternal(Champion[] champions, Champion? caster = null);
     public abstract void RemoveBuff(Champion champion);
     public abstract Champion[] AppliesTo(Champion[] champions);
 }

@@ -2,7 +2,7 @@ namespace RaidCalculator.Buffs;
 
 public class AppliedBuff
 {
-    public int TurnsRemaining = 0;
+    public int TurnsRemaining;
     public Buff Buff;
 
     public AppliedBuff(int turnsRemaining, Buff buff)

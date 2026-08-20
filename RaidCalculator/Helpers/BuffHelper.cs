@@ -5,21 +5,21 @@ public static class BuffHelper
     public static void UpdateBuff(Champion[] champions, Champion nextChampion)
     {
         DecrementBuffTurns(nextChampion);
-        SetBuffs(champions, nextChampion);
-        ReduceBuffCoolDown(nextChampion);
+        ApplyReadyBuff(champions, nextChampion);
+        ReduceBuffCoolDowns(nextChampion);
     }
-    
-    private static void SetBuffs(Champion[] champions, Champion caster)
-    {
-        var applicableBuffs = caster.Buffs.Where(e => e.CurrentCoolDown == 0).OrderByDescending(e => e.Priority).FirstOrDefault();
 
-        if (applicableBuffs != null)
-        {
-            applicableBuffs.SetBuffs(champions, caster);
-        }
+    private static void ApplyReadyBuff(Champion[] champions, Champion caster)
+    {
+        var buff = caster.Buffs
+            .Where(b => b.CurrentCoolDown == 0)
+            .OrderByDescending(b => b.Priority)
+            .FirstOrDefault();
+
+        buff?.ApplyBuff(champions, caster);
     }
-    
-    private static void ReduceBuffCoolDown(Champion caster)
+
+    private static void ReduceBuffCoolDowns(Champion caster)
     {
         foreach (var buff in caster.Buffs)
         {
@@ -33,11 +33,13 @@ public static class BuffHelper
         {
             appliedBuff.TurnsRemaining--;
 
-            if (appliedBuff.TurnsRemaining <= 0)
+            if (appliedBuff.TurnsRemaining > 0)
             {
-                appliedBuff.Buff.RemoveBuff(champion);
-                champion.ActiveBuffs.Remove(appliedBuff);
+                continue;
             }
+
+            appliedBuff.Buff.RemoveBuff(champion);
+            champion.ActiveBuffs.Remove(appliedBuff);
         }
     }
 }
