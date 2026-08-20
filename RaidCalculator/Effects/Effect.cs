@@ -4,7 +4,7 @@ public abstract class Effect
 {
     public int EffectCoolDown = 0;
     public int CurrentCoolDown = 0;
-    public int Uses = 0;
+    public string Name;
     public int Priority = 0;
 
     public void ApplyEffect(Champion[] champions, Champion? caster = null)

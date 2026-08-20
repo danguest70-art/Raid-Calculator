@@ -4,7 +4,7 @@ public class BasicTurnMeterEffect : Effect
 {
     public BasicTurnMeterEffect()
     {
-        Uses = 1;
+        Name = "Green Sword";
         Priority = 2;
         EffectCoolDown = 3;
     }

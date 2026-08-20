@@ -6,14 +6,19 @@ public static class OutputHelper
     {
         Console.WriteLine(new string('-', 40));
 
+        var boss = champions.FirstOrDefault(c => !c.IsChampion);
+
+        if (boss != null)
+        {
+            Console.WriteLine($"Boss Turn: {boss.TurnCounter}");
+        }
+        
         var orderedChampions = champions.OrderByDescending(champion => champion.TurnMeter).ToList();
 
         foreach (Champion champion in orderedChampions)
         {
             WriteColour($"champion:{champion.Name}, TM:{champion.TurnMeter}", champion.OutputColour);
         }
-
-        Console.WriteLine(new string('-', 40));
     }
 
     private static void WriteColour(string text, ConsoleColor colour)

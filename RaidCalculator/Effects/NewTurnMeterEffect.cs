@@ -5,7 +5,7 @@ public class NewTurnMeterEffect : Effect
 
     public NewTurnMeterEffect()
     {
-        Uses = 1;
+        Name = Name = "Blue Sword";
         Priority = 0;
         EffectCoolDown = 3;
     }

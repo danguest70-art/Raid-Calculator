@@ -21,7 +21,15 @@ public static class TurnMeterHelper
         OutputHelper.OutputStepResults(champions);
         nextChampion.TurnMeter = 0;
         
-        ApplyEffects(champions, nextChampion);
+        nextChampion.IncrementTurns();
+        
+        var usedEffect = ApplyEffects(champions, nextChampion);
+
+        if (usedEffect != null)
+        {
+            Console.WriteLine($"Champion {nextChampion.Name} used effect: {usedEffect.Name}");
+        }
+        
         ReduceEffectCoolDowns(nextChampion);
     }
 
@@ -51,7 +59,7 @@ public static class TurnMeterHelper
         }
     }
 
-    private static void ApplyEffects(Champion[] champions, Champion caster)
+    private static Effect? ApplyEffects(Champion[] champions, Champion caster)
     {
         var applicableEffect = caster.Effects.Where(e => e.CurrentCoolDown == 0).OrderByDescending(e => e.Priority).FirstOrDefault();
 
@@ -59,6 +67,8 @@ public static class TurnMeterHelper
         {
             applicableEffect.ApplyEffect(champions, caster);
         }
+
+        return applicableEffect;
     }
 
     private static void ReduceEffectCoolDowns(Champion caster)
