@@ -4,7 +4,7 @@
 Champion[] champions =
 {
      new Champion("A", 90,0, ConsoleColor.Green, [], false),
-     new Champion("B", 150,0, ConsoleColor.Red, [new BasicTurnMeterEffect(), new NewTurnMeterEffect()]),
+     new Champion("B", 150,0, ConsoleColor.Red, [new AdvancedTurnMeterEffect()]),
      new Champion("C", 100,0, ConsoleColor.Yellow, []),
 };
 

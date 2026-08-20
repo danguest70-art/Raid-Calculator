@@ -4,20 +4,32 @@ public static class TurnMeterHelper
 {
     public static void CalculateNextTurn(Champion[] champions)
     {
-        var anyAbove100TurnMeter = CheckForAnyChampionsAbove100TurnMeter(champions);
+        var championWithExtraTurn = GetChampionWithExtraTurn(champions);
+        Champion nextChampion;
 
-        if (anyAbove100TurnMeter)
+        if (championWithExtraTurn != null)
         {
-            AddOneTicTurnMeter(champions);
+            championWithExtraTurn.ExtraTurns --;
+            nextChampion = championWithExtraTurn;
         }
         else
         {
-            var minTicksTo100TurnMeter = GetMinTicsTo100(champions);
+            var anyAbove100TurnMeter = CheckForAnyChampionsAbove100TurnMeter(champions);
 
-            UpdateChampionsTurnMeter(champions, minTicksTo100TurnMeter);
+            if (anyAbove100TurnMeter)
+            {
+                AddOneTicTurnMeter(champions);
+            }
+            else
+            {
+                var minTicksTo100TurnMeter = GetMinTicsTo100(champions);
+
+                UpdateChampionsTurnMeter(champions, minTicksTo100TurnMeter);
+            }
+            
+            nextChampion = champions.MaxBy(champion => champion.TurnMeter);
         }
-
-        var nextChampion = champions.MaxBy(champion => champion.TurnMeter);
+         
         OutputHelper.OutputStepResults(champions);
         nextChampion.TurnMeter = 0;
         
@@ -77,5 +89,13 @@ public static class TurnMeterHelper
         {
             effect.ReduceCoolDown();
         }
+    }
+
+
+    private static Champion? GetChampionWithExtraTurn(Champion[] champions)
+    {
+        var championWithExtraTurn = champions.FirstOrDefault(c => c.ExtraTurns > 0);
+
+        return championWithExtraTurn;
     }
 }

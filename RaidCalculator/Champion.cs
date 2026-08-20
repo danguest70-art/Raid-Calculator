@@ -9,6 +9,7 @@ public class Champion
     public ConsoleColor OutputColour;
     public Effect[] Effects;
     public int TurnCounter = 0;
+    public int ExtraTurns = 0;
 
     public Champion(string name, double speed, double turnMeter, ConsoleColor outputColour, Effect[] effects, bool isChampion = true)
     {
