@@ -1,5 +1,6 @@
 ﻿using RaidCalculator;
 using RaidCalculator.Buffs;
+using RaidCalculator.Helpers;
 
 // The effects added for champion B match: https://hellhades.com/raid/champions/vagabond/
 Champion[] champions =
@@ -23,43 +24,10 @@ for (int i = 0; i < 10; i++)
     
     if (nextChampion.IsChampion)
     {
-        CalculateDamage(boss, nextChampion);
+        DamageHelper.CalculateDamage(boss, nextChampion);
     }
     else
     {
-        CalculateDamage(allies, nextChampion);
-    }
-}
-
-
-
-void CalculateDamage(Champion[] targets, Champion attacker)
-{
-
-    Random random = new Random();
-    var variance = random.NextDouble() * (1.1 - 0.9) + 0.9;
-
-    var isCrit = random.NextDouble() <= attacker.CritRate;
-    
-    var boss = champions.FirstOrDefault(c => !c.IsChampion);
-    double trueDamage = 0;
-
-    if (attacker.DamageType == DamageType.Health)
-    {
-        trueDamage = attacker.Health * attacker.Multiplier;
-    }
-    
-    var defenceMitigation = 1 - 0.85 * (1 - Math.Pow(Math.E, -boss.Defence / 1500));
-
-    var realDamage = trueDamage * defenceMitigation * variance;
-
-    if (isCrit)
-    {
-        realDamage *= attacker.CritDamage;
-    }
-    
-    foreach (var target in targets)
-    {
-        target.Health -= realDamage;
+        DamageHelper.CalculateDamage(allies, nextChampion);
     }
 }
