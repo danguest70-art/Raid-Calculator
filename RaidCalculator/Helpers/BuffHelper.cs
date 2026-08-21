@@ -2,15 +2,15 @@ namespace RaidCalculator;
 
 public static class BuffHelper
 {
-    public static void UpdateBuff(Champion[] champions, Champion nextChampion, Skill skill)
+    public static void UpdateBuff(ActionContext context, Champion[] champions, Champion nextChampion, Skill skill)
     {
         DecrementBuffTurns(nextChampion);
-        ApplyReadyBuff(champions, nextChampion, skill);
+        ApplyReadyBuff(context, champions, nextChampion, skill);
     }
 
-    private static void ApplyReadyBuff(Champion[] champions, Champion caster, Skill skill)
+    private static void ApplyReadyBuff(ActionContext context, Champion[] champions, Champion caster, Skill skill)
     {
-        skill.Buff?.ApplyBuff(champions, caster);
+        skill.Buff?.ApplyBuff(context, champions, caster);
     }
 
     private static void DecrementBuffTurns(Champion champion)

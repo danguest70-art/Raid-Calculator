@@ -6,10 +6,8 @@ public class SpeedIncrease : Buff
 
     public SpeedIncrease(
         int duration = 2,
-        int cooldown = 5,
-        int priority = 4,
         double speedMultiplier = 1.3)
-        : base("Speed Increase", duration, cooldown, priority)
+        : base("Speed Increase", duration)
     {
         SpeedMultiplier = speedMultiplier;
     }

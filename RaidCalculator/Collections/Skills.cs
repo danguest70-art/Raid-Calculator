@@ -10,7 +10,7 @@ public static class Skills
         SkillCoolDown = 5,
         Buff = new SpeedIncrease(),
         Effect = new BasicTurnMeterEffect(),
-        Priority = 5
+        Priority = 3
     };
 
     public static Skill EmptySkill = new()
@@ -18,5 +18,13 @@ public static class Skills
         Name = "Empty Skill",
         SkillCoolDown = 0,
         Priority = 0
+    };
+
+    public static Skill SoothingChant = new()
+    {
+        Name = "SOOTHING CHANT",
+        SkillCoolDown = 3,
+        Priority = 2,
+        Effect = new AoeTargetHealEffect(1.35)
     };
 }

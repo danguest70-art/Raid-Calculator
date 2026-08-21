@@ -2,6 +2,8 @@
 
 public class BuffPipeline
 {
+    public Buff Buff { get; set; }
+    public ActionContext Context { get; set; }
     public Champion[] Champions { get; set; } = [];
     public Champion? Caster { get; set; }
 
@@ -13,22 +15,29 @@ public class BuffPipeline
         return this;
     }
 
+    public BuffPipeline ThenIf(bool condition, Action<BuffPipeline> step)
+    {
+        if (condition)
+        {
+            _steps.Add(step);
+        }
+
+        return this;
+    }
+
     /// <summary>
     /// Forks the pipeline into two branches with their own champion sets and steps.
     /// Example: .Split(left => left.Then(TestOutput1), right => right.Then(TestOutput3))
     /// </summary>
     public BuffPipeline Split(
         Action<BuffPipeline> configureLeft,
-        Action<BuffPipeline> configureRight,
-        Func<Champion, bool>? leftPredicate = null)
+        Action<BuffPipeline> configureRight)
     {
-        leftPredicate ??= c => c.IsChampion;
-
         _steps.Add(parent =>
         {
             var left = new BuffPipeline
             {
-                Champions = parent.Champions.Where(leftPredicate).ToArray(),
+                Champions = parent.Champions,
                 Caster = parent.Caster
             };
             configureLeft(left);
@@ -36,7 +45,7 @@ public class BuffPipeline
 
             var right = new BuffPipeline
             {
-                Champions = parent.Champions.Where(c => !leftPredicate(c)).ToArray(),
+                Champions = parent.Champions,
                 Caster = parent.Caster
             };
             configureRight(right);

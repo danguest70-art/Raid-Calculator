@@ -7,6 +7,18 @@ public static class EffectSteps
         pipeline.Champions = pipeline.Champions.Where(c => c.IsChampion).ToArray();
     }
 
+    public static void FilterToLowestHealthChampion(EffectPipeline pipeline)
+    {
+        var champion = pipeline.Champions.OrderBy(c => c.Health).FirstOrDefault();
+        
+        pipeline.Champions = [champion];
+    }
+
+    public static void FilterOutCaster(EffectPipeline pipeline)
+    {
+        pipeline.Champions = pipeline.Champions.Where(c => c != pipeline.Caster).ToArray();
+    }
+
     public static void FilterToEnemies(EffectPipeline pipeline)
     {
         pipeline.Champions = pipeline.Champions.Where(c => !c.IsChampion).ToArray();
@@ -33,11 +45,16 @@ public static class EffectSteps
         }
     }
 
-    public static void HealChampions(EffectPipeline pipeline, int value)
+    public static void HealChampions(EffectPipeline pipeline, double value)
     {
         foreach (var champion in pipeline.Champions)
         {
             champion.Health = champion.MaxHp * value;
+
+            if (champion.Health > champion.MaxHp)
+            {
+                champion.Health = champion.MaxHp;
+            }
         }
     }
 }

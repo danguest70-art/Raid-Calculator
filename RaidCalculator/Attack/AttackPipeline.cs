@@ -1,26 +1,15 @@
-﻿namespace RaidCalculator.Effects;
+namespace RaidCalculator.Attack;
 
-public class EffectPipeline
+public class AttackPipeline
 {
-    public ActionContext Context { get; set; }
     public Champion[] Champions { get; set; } = [];
     public Champion? Caster { get; set; }
 
-    private readonly List<Action<EffectPipeline>> _steps = [];
+    private readonly List<Action<AttackPipeline>> _steps = [];
 
-    public EffectPipeline Then(Action<EffectPipeline> step)
+    public AttackPipeline Then(Action<AttackPipeline> step)
     {
         _steps.Add(step);
-        return this;
-    }
-    
-    public EffectPipeline ThenIf(bool condition, Action<EffectPipeline> step)
-    {
-        if (condition)
-        {
-            _steps.Add(step);
-        }
-
         return this;
     }
 
@@ -28,16 +17,16 @@ public class EffectPipeline
     /// Forks the pipeline into two branches with their own champion sets and steps.
     /// Example: .Split(left => left.Then(TestOutput1), right => right.Then(TestOutput3))
     /// </summary>
-    public EffectPipeline Split(
-        Action<EffectPipeline> configureLeft,
-        Action<EffectPipeline> configureRight,
+    public AttackPipeline Split(
+        Action<AttackPipeline> configureLeft,
+        Action<AttackPipeline> configureRight,
         Func<Champion, bool>? leftPredicate = null)
     {
         leftPredicate ??= c => c.IsChampion;
 
         _steps.Add(parent =>
         {
-            var left = new EffectPipeline
+            var left = new AttackPipeline
             {
                 Champions = parent.Champions.Where(leftPredicate).ToArray(),
                 Caster = parent.Caster
@@ -45,7 +34,7 @@ public class EffectPipeline
             configureLeft(left);
             left.Run();
 
-            var right = new EffectPipeline
+            var right = new AttackPipeline
             {
                 Champions = parent.Champions.Where(c => !leftPredicate(c)).ToArray(),
                 Caster = parent.Caster

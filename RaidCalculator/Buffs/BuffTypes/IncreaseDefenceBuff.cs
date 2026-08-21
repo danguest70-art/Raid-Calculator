@@ -6,10 +6,8 @@ public class IncreaseDefenceBuff : Buff
 
     public IncreaseDefenceBuff(
         int duration = 3,
-        int cooldown = 4,
-        int priority = 4,
         double defenceMultiplier = 1.6)
-        : base("Defence Buff", duration, cooldown, priority)
+        : base("Defence Buff", duration)
     {
         DefenceMultiplier = defenceMultiplier;
     }

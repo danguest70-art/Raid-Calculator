@@ -7,8 +7,6 @@ public class AoeCasterHealEffect : Effect
     public AoeCasterHealEffect()
     {
         Name = "Health Effect";
-        Priority = 10;
-        EffectCoolDown = 5;
     }
     
     public override void ConfigureEffectPipeline(EffectPipeline pipeline)

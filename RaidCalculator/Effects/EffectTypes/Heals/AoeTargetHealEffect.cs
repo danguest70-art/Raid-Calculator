@@ -4,17 +4,20 @@ namespace RaidCalculator;
 
 public class AoeTargetHealEffect : Effect
 {
-    public AoeTargetHealEffect()
+    private double HealMultiplier;
+    
+    public AoeTargetHealEffect(double healMultiplier)
     {
         Name = "Health Effect";
-        Priority = 10;
-        EffectCoolDown = 5;
+        HealMultiplier = healMultiplier;
     }
     
     public override void ConfigureEffectPipeline(EffectPipeline pipeline)
     {
         pipeline
             .Then(EffectSteps.FilterToAllies)
-            .Then(p => EffectSteps.IncreaseTurnMeterForChampions(p, 1.15));
+            .Then(EffectSteps.FilterOutCaster)
+            .Then(EffectSteps.FilterToLowestHealthChampion)
+            .Then(p => EffectSteps.HealChampions(p, HealMultiplier));
     }
 }
