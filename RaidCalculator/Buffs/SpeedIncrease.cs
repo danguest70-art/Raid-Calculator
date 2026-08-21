@@ -14,16 +14,10 @@ public class SpeedIncrease : Buff
         SpeedMultiplier = speedMultiplier;
     }
 
-    public override void ApplyBuffInternal(Champion[] champions, Champion? caster = null)
+    public override void GetBuffPipeline(BuffPipeline buffPipeline)
     {
-        foreach (var champion in champions)
-        {
-            champion.ActiveBuffs.Add(new AppliedBuff(BuffDuration, ChampionStat.Speed, SpeedMultiplier, null));
-        }
-    }
-
-    public override Champion[] AppliesTo(Champion[] champions)
-    {
-        return champions.Where(c => c.IsChampion).ToArray();
+        buffPipeline
+            .Then(BuffSteps.FilterToAllies)
+            .Then(p => BuffSteps.ApplySpeedMultiplierBuffToChampions(p, SpeedMultiplier, BuffDuration));
     }
 }

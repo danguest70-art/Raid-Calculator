@@ -23,8 +23,16 @@ public abstract class Buff
             return;
         }
 
-        var affectedChampions = AppliesTo(champions);
-        ApplyBuffInternal(affectedChampions, caster);
+        var pipeline = new BuffPipeline()
+        {
+            Champions = champions,
+            Caster = caster
+        };
+
+        GetBuffPipeline(pipeline);
+
+        pipeline.Run();
+
         CurrentCoolDown = BuffCoolDown;
     }
 
@@ -36,6 +44,5 @@ public abstract class Buff
         }
     }
 
-    public abstract void ApplyBuffInternal(Champion[] champions, Champion? caster = null);
-    public abstract Champion[] AppliesTo(Champion[] champions);
+    public abstract void GetBuffPipeline(BuffPipeline buffPipeline);
 }
