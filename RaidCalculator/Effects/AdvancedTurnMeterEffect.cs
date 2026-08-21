@@ -1,3 +1,5 @@
+using RaidCalculator.Effects;
+
 namespace RaidCalculator;
 
 public class AdvancedTurnMeterEffect : Effect
@@ -10,24 +12,16 @@ public class AdvancedTurnMeterEffect : Effect
     }
 
     // This effect will increase all the allies Turn Meter by 15%
-    public override void ApplyEffectInternal(Champion[] champions, Champion? caster)
+    public override void ConfigureEffectPipeline(EffectPipeline pipeline)
     {
-        var allies = champions.Where(c => c.IsChampion);
-        var enemies = champions.Where(c => !c.IsChampion);
-
-        foreach (var ally in allies)
-        {
-            ally.TurnMeter += 15;
-        }
-
-        if (caster != null)
-        {
-            caster.ExtraTurns++;
-        }
-    }
-
-    public override Champion[] AppliesTo(Champion[] champions)
-    {
-        return champions;
+        pipeline
+            .Then(EffectSteps.FilterToAllies)
+            .Then(p => EffectSteps.IncreaseTurnMeterForChampions(p, 15))
+            .Split(
+                left => left
+                    .Then(EffectSteps.FilterToCaster)
+                    .Then(EffectSteps.AddTurnToChampions),
+                _ => { }
+                );
     }
 }

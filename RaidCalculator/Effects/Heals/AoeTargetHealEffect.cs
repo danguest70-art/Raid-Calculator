@@ -1,3 +1,5 @@
+using RaidCalculator.Effects;
+
 namespace RaidCalculator;
 
 public class AoeTargetHealEffect : Effect
@@ -9,17 +11,10 @@ public class AoeTargetHealEffect : Effect
         EffectCoolDown = 5;
     }
     
-    // This effect will increase all the allies Turn Meter by 15%
-    public override void ApplyEffectInternal(Champion[] champions, Champion? caster)
+    public override void ConfigureEffectPipeline(EffectPipeline pipeline)
     {
-        foreach (var champion in champions)
-        {
-            champion.Health = champion.MaxHp * 1.15;
-        }
-    }
-
-    public override Champion[] AppliesTo(Champion[] champions)
-    {
-        return champions.Where(c => c.IsChampion).ToArray();
+        pipeline
+            .Then(EffectSteps.FilterToAllies)
+            .Then(p => EffectSteps.IncreaseTurnMeterForChampions(p, 1.15));
     }
 }

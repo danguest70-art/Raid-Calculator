@@ -1,3 +1,5 @@
+using RaidCalculator.Effects;
+
 namespace RaidCalculator;
 
 public abstract class Effect
@@ -11,8 +13,15 @@ public abstract class Effect
     {
         if (CurrentCoolDown == 0)
         {
-            var affectedChampions = AppliesTo(champions);
-            ApplyEffectInternal(affectedChampions, caster);
+            var pipeline = new EffectPipeline
+            {
+                Champions = champions,
+                Caster = caster
+            };
+
+            ConfigureEffectPipeline(pipeline);
+
+            pipeline.Run();
 
             CurrentCoolDown = EffectCoolDown;
         }
@@ -26,6 +35,5 @@ public abstract class Effect
         }
     }
 
-    public abstract void ApplyEffectInternal(Champion[] champions, Champion? caster = null);
-    public abstract Champion[] AppliesTo(Champion[] champions);
+    public abstract void ConfigureEffectPipeline(EffectPipeline pipeline);
 }
