@@ -38,7 +38,6 @@ public static class BuffHelper
                 continue;
             }
 
-            appliedBuff.Buff.RemoveBuff(champion);
             champion.ActiveBuffs.Remove(appliedBuff);
         }
     }

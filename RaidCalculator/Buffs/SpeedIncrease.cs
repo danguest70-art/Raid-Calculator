@@ -8,7 +8,7 @@ public class SpeedIncrease : Buff
         int duration = 2,
         int cooldown = 5,
         int priority = 4,
-        double speedMultiplier = 0.3)
+        double speedMultiplier = 1.3)
         : base("Speed Increase", duration, cooldown, priority)
     {
         SpeedMultiplier = speedMultiplier;
@@ -18,14 +18,8 @@ public class SpeedIncrease : Buff
     {
         foreach (var champion in champions)
         {
-            champion.ActiveBuffs.Add(new AppliedBuff(BuffDuration, this));
-            champion.Speed += champion.BaseSpeed * SpeedMultiplier;
+            champion.ActiveBuffs.Add(new AppliedBuff(BuffDuration, ChampionStat.Speed, SpeedMultiplier, null));
         }
-    }
-
-    public override void RemoveBuff(Champion champion)
-    {
-        champion.Speed -= champion.BaseSpeed * SpeedMultiplier;
     }
 
     public override Champion[] AppliesTo(Champion[] champions)

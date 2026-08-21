@@ -5,7 +5,7 @@ using RaidCalculator.Buffs;
 Champion[] champions =
 {
      new Champion("A", 90,0, ConsoleColor.Green, [], [], 100000, 294, 100, 0.25, DamageType.Health, 0.15, 1.5, false),
-     new Champion("B", 150,0, ConsoleColor.Yellow, [new BasicTurnMeterEffect()], [new SpeedIncrease()], 22800, 100, 100, 1.8, DamageType.Health, 2, 1.5),
+     new Champion("B", 180,0, ConsoleColor.Yellow, [new BasicTurnMeterEffect()], [new SpeedIncrease()], 22800, 100, 100, 1.8, DamageType.Health, 2, 1.5),
      new Champion("C", 100,0, ConsoleColor.Red, [], [], 22800, 100, 100, 1.8, DamageType.Health, 2, 1.5),
      
 };
@@ -49,7 +49,7 @@ void CalculateDamage(Champion[] targets, Champion attacker)
         trueDamage = attacker.Health * attacker.Multiplier;
     }
     
-    var defenceMitigation = 1 - 0.85 * (1 - Math.Pow(Math.E, -boss.Defence / 1500));
+    var defenceMitigation = 1 - 0.85 * (1 - Math.Pow(Math.E, -boss.Defence() / 1500));
 
     var realDamage = trueDamage * defenceMitigation * variance;
 

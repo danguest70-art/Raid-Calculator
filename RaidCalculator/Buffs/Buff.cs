@@ -37,6 +37,5 @@ public abstract class Buff
     }
 
     public abstract void ApplyBuffInternal(Champion[] champions, Champion? caster = null);
-    public abstract void RemoveBuff(Champion champion);
     public abstract Champion[] AppliesTo(Champion[] champions);
 }
