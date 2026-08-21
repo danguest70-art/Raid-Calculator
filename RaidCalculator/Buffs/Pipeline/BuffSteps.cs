@@ -26,4 +26,12 @@ public static class BuffSteps
             champion.ActiveBuffs.Add(new AppliedBuff(duration, ChampionStat.Speed, value, null));
         }
     }
+    
+    public static void ApplyDefenceMultiplierBuffToChampions(BuffPipeline pipeline, double value, int duration)
+    {
+        foreach (var champion in pipeline.Champions)
+        {
+            champion.ActiveBuffs.Add(new AppliedBuff(duration, ChampionStat.Defence, value, null));
+        }
+    }
 }
