@@ -2,29 +2,15 @@ namespace RaidCalculator;
 
 public static class BuffHelper
 {
-    public static void UpdateBuff(Champion[] champions, Champion nextChampion)
+    public static void UpdateBuff(Champion[] champions, Champion nextChampion, Skill skill)
     {
         DecrementBuffTurns(nextChampion);
-        ApplyReadyBuff(champions, nextChampion);
-        ReduceBuffCoolDowns(nextChampion);
+        ApplyReadyBuff(champions, nextChampion, skill);
     }
 
-    private static void ApplyReadyBuff(Champion[] champions, Champion caster)
+    private static void ApplyReadyBuff(Champion[] champions, Champion caster, Skill skill)
     {
-        var buff = caster.Buffs
-            .Where(b => b.CurrentCoolDown == 0)
-            .OrderByDescending(b => b.Priority)
-            .FirstOrDefault();
-
-        buff?.ApplyBuff(champions, caster);
-    }
-
-    private static void ReduceBuffCoolDowns(Champion caster)
-    {
-        foreach (var buff in caster.Buffs)
-        {
-            buff.ReduceCoolDown();
-        }
+        skill.Buff?.ApplyBuff(champions, caster);
     }
 
     private static void DecrementBuffTurns(Champion champion)

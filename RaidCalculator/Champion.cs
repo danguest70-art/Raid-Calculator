@@ -15,7 +15,7 @@ public class Champion
     public double TurnMeter;
     public int TurnCounter = 0;
     public int ExtraTurns = 0;
-    public Effect[] Effects;
+    public Skill[] Skills;
 
     // Damage Calculation
     public double MaxHp;
@@ -29,7 +29,6 @@ public class Champion
     public double CritRate;
     public double CritDamage;
 
-    public Buff[] Buffs;
     public List<AppliedBuff> ActiveBuffs = [];
     
     public Champion(
@@ -37,8 +36,7 @@ public class Champion
         double speed, 
         double turnMeter, 
         ConsoleColor outputColour, 
-        Effect[] effects,
-        Buff[] buffs,
+        Skill[] skills,
         double health,
         double defence,
         double attack,
@@ -52,7 +50,7 @@ public class Champion
         TurnMeter = turnMeter;
         OutputColour = outputColour;
         IsChampion = isChampion;
-        Effects = effects;
+        Skills = skills;
         Health = health;
         BaseDefence = defence;
         BaseAttack = attack;
@@ -61,7 +59,6 @@ public class Champion
         CritDamage = critDamage;
         CritRate = critRate;
         BaseSpeed = speed;
-        Buffs = buffs;
         MaxHp = health;
     }
 
