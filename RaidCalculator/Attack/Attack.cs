@@ -4,18 +4,19 @@ public abstract class Attack
 {
     public string Name;
 
-    public void ApplyEffect(Champion[] champions, Champion? caster = null)
+    public void ApplyAttack(ActionContext context, Champion[] champions, Champion? attacker = null)
     {
         var pipeline = new AttackPipeline()
         {
+            Context = context,
             Champions = champions,
-            Caster = caster
+            Attacker = attacker
         };
 
-        ConfigureEffectPipeline(pipeline);
+        ConfigureAttackPipeline(pipeline);
 
         pipeline.Run();
     }
 
-    public abstract void ConfigureEffectPipeline(AttackPipeline pipeline);
+    public abstract void ConfigureAttackPipeline(AttackPipeline pipeline);
 }

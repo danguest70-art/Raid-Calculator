@@ -4,7 +4,7 @@ public class BuffPipeline
 {
     public Buff Buff { get; set; }
     public ActionContext Context { get; set; }
-    public Champion[] Champions { get; set; } = [];
+    public Champion[] Champions { get; set; }
     public Champion? Caster { get; set; }
 
     private readonly List<Action<BuffPipeline>> _steps = [];

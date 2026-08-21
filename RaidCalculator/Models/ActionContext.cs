@@ -10,5 +10,5 @@ public class ActionContext
 
     public List<EffectResult> EffectResults = [];
     public List<BuffResult> BuffResults = [];
-    
+    public AttackResult AttackResult;
 }

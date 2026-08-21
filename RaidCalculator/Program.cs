@@ -1,13 +1,11 @@
 ﻿using RaidCalculator;
-using RaidCalculator.Buffs;
-using RaidCalculator.Effects;
 using RaidCalculator.Helpers;
 
 List<Champion> champions =
 [
-     new Champion("A", 90,0, ConsoleColor.Green, [Skills.EmptySkill], 100000, 294, 100, 0, DamageType.Health, 0.15, 1.5, false),
-     new Champion("B", 150,0, ConsoleColor.Yellow, [Skills.BoonOfSpeed, Skills.SoothingChant], 10000, 100, 100, 0, DamageType.Health, 2, 1.5),
-     new Champion("C", 100,0, ConsoleColor.Red, [Skills.EmptySkill], 22800, 100, 100, 0, DamageType.Health, 2, 1.5),
+     new Champion("A", 90,0, ConsoleColor.Green, [Skills.EmptySkill], 100000, 294, 100, 0.1, DamageType.Health, 0.15, 1.5, false),
+     new Champion("B", 150,0, ConsoleColor.Yellow, [Skills.BoonOfSpeed, Skills.SoothingChant], 10000, 100, 100, 0.1, DamageType.Health, 2, 1.5),
+     new Champion("C", 100,0, ConsoleColor.Red, [Skills.EmptySkill], 22800, 100, 100, 0.1, DamageType.Health, 2, 1.5),
      
 ];
 
@@ -32,18 +30,12 @@ for (int i = 0; i < 10; i++)
     EffectHelper.ApplyEffect(context, champions.ToArray(), nextChampion, skill);
     
     BuffHelper.UpdateBuff(context, champions.ToArray(), nextChampion, skill);
+    
+    AttackHelper.ApplyAttack(context, champions.ToArray(), nextChampion, skill);
+    
 
     SkillHelper.DecrementSkillCoolDown(skill);
-
-    if (nextChampion.IsChampion)
-    {
-        DamageHelper.CalculateDamage(boss, nextChampion);
-    }
-    else
-    {
-        DamageHelper.CalculateDamage(allies, nextChampion);
-    }
-
+    
     var championsWithZeroHealth = champions
         .Where(c => c.Health <= 0)
         .ToList();

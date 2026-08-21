@@ -2,9 +2,9 @@ namespace RaidCalculator.Results;
 
 public class AttackResult
 {
-    public bool Hit { get; init; }
-    public bool Critical { get; init; }
-    public bool Weak { get; init; }
-    public int Damage { get; init; }
-    public Champion Target { get; init; } = null!;
+    public Champion Attacker { get; set;  }
+    public bool Hit { get; set; }
+    public bool Critical { get; set; }
+    public bool Weak { get; set; }
+    public List<DamageResult> DamageResults { get; } = [];
 }

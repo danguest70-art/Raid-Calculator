@@ -1,3 +1,4 @@
+using RaidCalculator.Attack;
 using RaidCalculator.Buffs;
 
 namespace RaidCalculator;
@@ -10,14 +11,16 @@ public static class Skills
         SkillCoolDown = 5,
         Buff = new SpeedIncrease(),
         Effect = new BasicTurnMeterEffect(),
-        Priority = 3
+        Priority = 3,
+        Attack = new BasicAttack()
     };
 
     public static Skill EmptySkill = new()
     {
         Name = "Empty Skill",
         SkillCoolDown = 0,
-        Priority = 0
+        Priority = 0,
+        Attack = new BasicAttack()
     };
 
     public static Skill SoothingChant = new()
@@ -25,6 +28,7 @@ public static class Skills
         Name = "SOOTHING CHANT",
         SkillCoolDown = 3,
         Priority = 2,
-        Effect = new AoeTargetHealEffect(1.35)
+        Effect = new AoeTargetHealEffect(1.35),
+        Attack = new BasicAttack()
     };
 }

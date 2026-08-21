@@ -1,9 +1,12 @@
+using RaidCalculator.Results;
+
 namespace RaidCalculator.Attack;
 
 public class AttackPipeline
 {
-    public Champion[] Champions { get; set; } = [];
-    public Champion? Caster { get; set; }
+    public ActionContext Context;
+    public Champion[] Champions { get; set; }
+    public Champion? Attacker { get; set; }
 
     private readonly List<Action<AttackPipeline>> _steps = [];
 
@@ -29,7 +32,7 @@ public class AttackPipeline
             var left = new AttackPipeline
             {
                 Champions = parent.Champions.Where(leftPredicate).ToArray(),
-                Caster = parent.Caster
+                Attacker = parent.Attacker
             };
             configureLeft(left);
             left.Run();
@@ -37,7 +40,7 @@ public class AttackPipeline
             var right = new AttackPipeline
             {
                 Champions = parent.Champions.Where(c => !leftPredicate(c)).ToArray(),
-                Caster = parent.Caster
+                Attacker = parent.Attacker
             };
             configureRight(right);
             right.Run();
@@ -48,6 +51,11 @@ public class AttackPipeline
 
     public void Run()
     {
+        Context.AttackResult = new AttackResult
+        {
+            Attacker = Attacker!
+        };
+        
         foreach (var step in _steps)
         {
             step(this);

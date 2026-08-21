@@ -3,7 +3,7 @@
 public class EffectPipeline
 {
     public ActionContext Context { get; set; }
-    public Champion[] Champions { get; set; } = [];
+    public Champion[] Champions { get; set; }
     public Champion? Caster { get; set; }
 
     private readonly List<Action<EffectPipeline>> _steps = [];
