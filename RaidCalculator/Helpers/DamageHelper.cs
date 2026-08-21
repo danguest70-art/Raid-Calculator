@@ -41,7 +41,7 @@ public static class DamageHelper
             DamageType.Health => attacker.Health * attacker.Multiplier,
             DamageType.Attack => attacker.Attack * attacker.Multiplier,
             DamageType.Defence => attacker.Defence * attacker.Multiplier,
-            DamageType.EnemyMaxHp => throw new NotImplementedException(),
+            DamageType.EnemyMaxHp => target.MaxHp * attacker.Multiplier,
             _ => throw new NotImplementedException()
         };
 

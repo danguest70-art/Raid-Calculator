@@ -18,6 +18,7 @@ public class Champion
     public Effect[] Effects;
 
     // Damage Calculation
+    public double MaxHp;
     public double Health;
     public double Defence => GetValueWithBuffsApplied(ChampionStat.Defence, BaseDefence);
     public double BaseDefence;
@@ -61,6 +62,7 @@ public class Champion
         CritRate = critRate;
         BaseSpeed = speed;
         Buffs = buffs;
+        MaxHp = health;
     }
 
     public double PerTicTurnMeter() => Speed * 0.07;
