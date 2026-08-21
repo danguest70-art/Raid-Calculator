@@ -10,7 +10,7 @@ public class Champion
     public ConsoleColor OutputColour;
     
     // Turn Meter
-    public double Speed () => GetValueWithBuffsApplied(ChampionStat.Speed, BaseSpeed);
+    public double Speed => GetValueWithBuffsApplied(ChampionStat.Speed, BaseSpeed);
     public double BaseSpeed;
     public double TurnMeter;
     public int TurnCounter = 0;
@@ -19,9 +19,9 @@ public class Champion
 
     // Damage Calculation
     public double Health;
-    public double Defence () => GetValueWithBuffsApplied(ChampionStat.Defence, BaseDefence);
+    public double Defence => GetValueWithBuffsApplied(ChampionStat.Defence, BaseDefence);
     public double BaseDefence;
-    public double Attack() => GetValueWithBuffsApplied(ChampionStat.Attack, BaseAttack);
+    public double Attack => GetValueWithBuffsApplied(ChampionStat.Attack, BaseAttack);
     public double BaseAttack;
     public double Multiplier;
     public DamageType DamageType;
@@ -63,7 +63,7 @@ public class Champion
         Buffs = buffs;
     }
 
-    public double PerTicTurnMeter() => Speed() * 0.07;
+    public double PerTicTurnMeter() => Speed * 0.07;
 
     public void IncrementTurns()
     {
