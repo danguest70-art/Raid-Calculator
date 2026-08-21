@@ -2,8 +2,8 @@
 
 public class EffectPipeline
 {
-    public ActionContext Context { get; set; }
-    public Champion[] Champions { get; set; }
+    public ActionContext Context { get; set; } = null!;
+    public Champion[] Champions { get; set; } = [];
     public Champion? Caster { get; set; }
 
     private readonly List<Action<EffectPipeline>> _steps = [];
@@ -13,21 +13,17 @@ public class EffectPipeline
         _steps.Add(step);
         return this;
     }
-    
-    public EffectPipeline ThenIf(bool condition, Action<EffectPipeline> step)
-    {
-        if (condition)
-        {
-            _steps.Add(step);
-        }
 
+    public EffectPipeline ThenIf(Func<EffectPipeline, bool> condition, Action<EffectPipeline> step)
+    {
+        _steps.Add(pipeline =>
+        {
+            if (condition(pipeline))
+                step(pipeline);
+        });
         return this;
     }
 
-    /// <summary>
-    /// Forks the pipeline into two branches with their own champion sets and steps.
-    /// Example: .Split(left => left.Then(TestOutput1), right => right.Then(TestOutput3))
-    /// </summary>
     public EffectPipeline Split(
         Action<EffectPipeline> configureLeft,
         Action<EffectPipeline> configureRight,
@@ -39,6 +35,7 @@ public class EffectPipeline
         {
             var left = new EffectPipeline
             {
+                Context = parent.Context,
                 Champions = parent.Champions.Where(leftPredicate).ToArray(),
                 Caster = parent.Caster
             };
@@ -47,6 +44,7 @@ public class EffectPipeline
 
             var right = new EffectPipeline
             {
+                Context = parent.Context,
                 Champions = parent.Champions.Where(c => !leftPredicate(c)).ToArray(),
                 Caster = parent.Caster
             };
@@ -60,8 +58,6 @@ public class EffectPipeline
     public void Run()
     {
         foreach (var step in _steps)
-        {
             step(this);
-        }
     }
 }

@@ -1,15 +1,12 @@
-using RaidCalculator.Effects;
-
-namespace RaidCalculator;
+namespace RaidCalculator.Effects;
 
 public class BasicTurnMeterEffect : Effect
 {
     public BasicTurnMeterEffect()
     {
-        Name = "Green Sword";
+        Name = "Ally Turn Meter Fill";
     }
-    
-    // This effect will increase all the allies Turn Meter by 15%
+
     public override void ConfigureEffectPipeline(EffectPipeline pipeline)
     {
         pipeline

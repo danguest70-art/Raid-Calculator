@@ -4,8 +4,8 @@ namespace RaidCalculator.Attack;
 
 public class AttackPipeline
 {
-    public ActionContext Context;
-    public Champion[] Champions { get; set; }
+    public ActionContext Context { get; set; } = null!;
+    public Champion[] Champions { get; set; } = [];
     public Champion? Attacker { get; set; }
 
     private readonly List<Action<AttackPipeline>> _steps = [];
@@ -16,10 +16,16 @@ public class AttackPipeline
         return this;
     }
 
-    /// <summary>
-    /// Forks the pipeline into two branches with their own champion sets and steps.
-    /// Example: .Split(left => left.Then(TestOutput1), right => right.Then(TestOutput3))
-    /// </summary>
+    public AttackPipeline ThenIf(Func<AttackPipeline, bool> condition, Action<AttackPipeline> step)
+    {
+        _steps.Add(pipeline =>
+        {
+            if (condition(pipeline))
+                step(pipeline);
+        });
+        return this;
+    }
+
     public AttackPipeline Split(
         Action<AttackPipeline> configureLeft,
         Action<AttackPipeline> configureRight,
@@ -31,6 +37,7 @@ public class AttackPipeline
         {
             var left = new AttackPipeline
             {
+                Context = parent.Context,
                 Champions = parent.Champions.Where(leftPredicate).ToArray(),
                 Attacker = parent.Attacker
             };
@@ -39,6 +46,7 @@ public class AttackPipeline
 
             var right = new AttackPipeline
             {
+                Context = parent.Context,
                 Champions = parent.Champions.Where(c => !leftPredicate(c)).ToArray(),
                 Attacker = parent.Attacker
             };
@@ -51,14 +59,12 @@ public class AttackPipeline
 
     public void Run()
     {
-        Context.AttackResult = new AttackResult
+        Context.AttackResult ??= new AttackResult
         {
             Attacker = Attacker!
         };
-        
+
         foreach (var step in _steps)
-        {
             step(this);
-        }
     }
 }

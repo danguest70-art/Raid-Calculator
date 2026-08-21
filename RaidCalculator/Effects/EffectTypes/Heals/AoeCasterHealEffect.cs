@@ -1,18 +1,19 @@
-using RaidCalculator.Effects;
-
-namespace RaidCalculator;
+namespace RaidCalculator.Effects;
 
 public class AoeCasterHealEffect : Effect
 {
-    public AoeCasterHealEffect()
+    private readonly double _healMultiplier;
+
+    public AoeCasterHealEffect(double healMultiplier = 0.3)
     {
-        Name = "Health Effect";
+        Name = "Self Heal";
+        _healMultiplier = healMultiplier;
     }
-    
+
     public override void ConfigureEffectPipeline(EffectPipeline pipeline)
     {
         pipeline
             .Then(EffectSteps.FilterToCaster)
-            .Then(p => EffectSteps.IncreaseTurnMeterForChampions(p, 1.15));
+            .Then(p => EffectSteps.HealChampions(p, _healMultiplier));
     }
 }

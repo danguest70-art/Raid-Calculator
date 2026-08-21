@@ -1,15 +1,12 @@
-using RaidCalculator.Effects;
-
-namespace RaidCalculator;
+namespace RaidCalculator.Effects;
 
 public class AdvancedTurnMeterEffect : Effect
 {
     public AdvancedTurnMeterEffect()
     {
-        Name = "Red Sword";
+        Name = "Ally Turn Meter Fill And Extra Turn";
     }
 
-    // This effect will increase all the allies Turn Meter by 15%
     public override void ConfigureEffectPipeline(EffectPipeline pipeline)
     {
         pipeline
@@ -19,7 +16,6 @@ public class AdvancedTurnMeterEffect : Effect
                 left => left
                     .Then(EffectSteps.FilterToCaster)
                     .Then(EffectSteps.AddTurnToChampions),
-                _ => { }
-                );
+                _ => { });
     }
 }

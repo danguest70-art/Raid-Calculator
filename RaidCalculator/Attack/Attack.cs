@@ -1,12 +1,17 @@
 namespace RaidCalculator.Attack;
 
-public abstract class Attack
+public abstract class Attack : ISkillAction
 {
-    public string Name;
+    public string Name { get; set; } = "";
+
+    public void Execute(ActionContext context, Champion[] champions, Champion caster)
+    {
+        ApplyAttack(context, champions, caster);
+    }
 
     public void ApplyAttack(ActionContext context, Champion[] champions, Champion? attacker = null)
     {
-        var pipeline = new AttackPipeline()
+        var pipeline = new AttackPipeline
         {
             Context = context,
             Champions = champions,
@@ -14,7 +19,6 @@ public abstract class Attack
         };
 
         ConfigureAttackPipeline(pipeline);
-
         pipeline.Run();
     }
 

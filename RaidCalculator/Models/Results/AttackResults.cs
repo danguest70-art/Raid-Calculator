@@ -2,7 +2,7 @@ namespace RaidCalculator.Results;
 
 public class AttackResult
 {
-    public Champion Attacker { get; set;  }
+    public Champion Attacker { get; set; } = null!;
     public bool Hit { get; set; }
     public bool Critical { get; set; }
     public bool Weak { get; set; }

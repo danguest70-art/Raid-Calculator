@@ -1,34 +1,41 @@
 using RaidCalculator.Attack;
 using RaidCalculator.Buffs;
+using RaidCalculator.Effects;
 
 namespace RaidCalculator;
 
 public static class Skills
 {
-    public static Skill BoonOfSpeed = new()
+    public static Skill BoonOfSpeed() => new()
     {
         Name = "BOON OF SPEED",
         SkillCoolDown = 5,
-        Buff = new SpeedIncrease(),
-        Effect = new BasicTurnMeterEffect(),
         Priority = 3,
-        Attack = new BasicAttack()
+        Actions =
+        [
+            new BasicTurnMeterEffect(),
+            new SpeedIncrease(),
+            new BasicAttack()
+        ]
     };
 
-    public static Skill EmptySkill = new()
+    public static Skill EmptySkill() => new()
     {
         Name = "Empty Skill",
         SkillCoolDown = 0,
         Priority = 0,
-        Attack = new BasicAttack()
+        Actions = [new BasicAttack()]
     };
 
-    public static Skill SoothingChant = new()
+    public static Skill SoothingChant() => new()
     {
         Name = "SOOTHING CHANT",
         SkillCoolDown = 3,
         Priority = 2,
-        Effect = new AoeTargetHealEffect(1.35),
-        Attack = new BasicAttack()
+        Actions =
+        [
+            new AoeTargetHealEffect(0.35),
+            new BasicAttack()
+        ]
     };
 }

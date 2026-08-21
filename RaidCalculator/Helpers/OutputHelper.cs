@@ -1,4 +1,4 @@
-﻿namespace RaidCalculator;
+﻿namespace RaidCalculator.Helpers;
 
 public static class OutputHelper
 {
@@ -7,18 +7,11 @@ public static class OutputHelper
         Console.WriteLine(new string('-', 40));
 
         var boss = champions.FirstOrDefault(c => !c.IsChampion);
-
-        if (boss != null)
-        {
+        if (boss is not null)
             Console.WriteLine($"Boss Turn: {boss.TurnCounter}");
-        }
-        
-        var orderedChampions = champions.OrderByDescending(champion => champion.TurnMeter).ToList();
 
-        foreach (Champion champion in orderedChampions)
-        {
+        foreach (var champion in champions.OrderByDescending(c => c.TurnMeter))
             WriteColour($"champion:{champion.Name}, TM:{champion.TurnMeter}", champion.OutputColour);
-        }
     }
 
     private static void WriteColour(string text, ConsoleColor colour)

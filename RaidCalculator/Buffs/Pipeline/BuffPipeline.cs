@@ -2,9 +2,9 @@
 
 public class BuffPipeline
 {
-    public Buff Buff { get; set; }
-    public ActionContext Context { get; set; }
-    public Champion[] Champions { get; set; }
+    public Buff Buff { get; set; } = null!;
+    public ActionContext Context { get; set; } = null!;
+    public Champion[] Champions { get; set; } = [];
     public Champion? Caster { get; set; }
 
     private readonly List<Action<BuffPipeline>> _steps = [];
@@ -15,20 +15,16 @@ public class BuffPipeline
         return this;
     }
 
-    public BuffPipeline ThenIf(bool condition, Action<BuffPipeline> step)
+    public BuffPipeline ThenIf(Func<BuffPipeline, bool> condition, Action<BuffPipeline> step)
     {
-        if (condition)
+        _steps.Add(pipeline =>
         {
-            _steps.Add(step);
-        }
-
+            if (condition(pipeline))
+                step(pipeline);
+        });
         return this;
     }
 
-    /// <summary>
-    /// Forks the pipeline into two branches with their own champion sets and steps.
-    /// Example: .Split(left => left.Then(TestOutput1), right => right.Then(TestOutput3))
-    /// </summary>
     public BuffPipeline Split(
         Action<BuffPipeline> configureLeft,
         Action<BuffPipeline> configureRight)
@@ -37,6 +33,8 @@ public class BuffPipeline
         {
             var left = new BuffPipeline
             {
+                Buff = parent.Buff,
+                Context = parent.Context,
                 Champions = parent.Champions,
                 Caster = parent.Caster
             };
@@ -45,6 +43,8 @@ public class BuffPipeline
 
             var right = new BuffPipeline
             {
+                Buff = parent.Buff,
+                Context = parent.Context,
                 Champions = parent.Champions,
                 Caster = parent.Caster
             };
@@ -58,9 +58,6 @@ public class BuffPipeline
     public void Run()
     {
         foreach (var step in _steps)
-        {
             step(this);
-        }
     }
 }
-

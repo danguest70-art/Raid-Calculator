@@ -12,7 +12,7 @@ public class IncreaseDefenceBuff : Buff
         DefenceMultiplier = defenceMultiplier;
     }
 
-    public override void GetBuffPipeline(BuffPipeline buffPipeline)
+    public override void ConfigureBuffPipeline(BuffPipeline buffPipeline)
     {
         buffPipeline
             .Then(BuffSteps.FilterToAllies)

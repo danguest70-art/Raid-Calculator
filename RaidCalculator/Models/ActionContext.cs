@@ -8,7 +8,7 @@ public class ActionContext
     public Champion[] Targets { get; set; } = [];
     public Skill? Skill { get; set; }
 
-    public List<EffectResult> EffectResults = [];
-    public List<BuffResult> BuffResults = [];
-    public AttackResult AttackResult;
+    public List<EffectResult> EffectResults { get; } = [];
+    public List<BuffResult> BuffResults { get; } = [];
+    public AttackResult? AttackResult { get; set; }
 }

@@ -1,14 +1,19 @@
-using RaidCalculator.Buffs;
-
 namespace RaidCalculator;
 
 public class Skill
 {
-    public string Name;
-    public Effect? Effect;
-    public Buff? Buff;
-    public Attack.Attack? Attack;
-    public int SkillCoolDown;
-    public int CurrentCoolDown = 0;
-    public int Priority;
+    public required string Name { get; init; }
+    public int SkillCoolDown { get; init; }
+    public int CurrentCoolDown { get; set; }
+    public int Priority { get; init; }
+    public IReadOnlyList<ISkillAction> Actions { get; init; } = [];
+
+    public Skill Clone() => new()
+    {
+        Name = Name,
+        SkillCoolDown = SkillCoolDown,
+        CurrentCoolDown = 0,
+        Priority = Priority,
+        Actions = [..Actions]
+    };
 }

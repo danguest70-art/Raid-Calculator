@@ -4,20 +4,17 @@ namespace RaidCalculator;
 
 public class Champion
 {
-    // misc
     public bool IsChampion;
     public string Name;
     public ConsoleColor OutputColour;
-    
-    // Turn Meter
+
     public double Speed => GetValueWithBuffsApplied(ChampionStat.Speed, BaseSpeed);
     public double BaseSpeed;
     public double TurnMeter;
-    public int TurnCounter = 0;
-    public int ExtraTurns = 0;
+    public int TurnCounter;
+    public int ExtraTurns;
     public Skill[] Skills;
 
-    // Damage Calculation
     public double MaxHp;
     public double Health;
     public double Defence => GetValueWithBuffsApplied(ChampionStat.Defence, BaseDefence);
@@ -26,16 +23,18 @@ public class Champion
     public double BaseAttack;
     public double Multiplier;
     public DamageType DamageType;
-    public double CritRate;
-    public double CritDamage;
+    public double CritRate => GetValueWithBuffsApplied(ChampionStat.CritRate, BaseCritRate);
+    public double BaseCritRate;
+    public double CritDamage => GetValueWithBuffsApplied(ChampionStat.CritDamage, BaseCritDamage);
+    public double BaseCritDamage;
 
     public List<AppliedBuff> ActiveBuffs = [];
-    
+
     public Champion(
-        string name, 
-        double speed, 
-        double turnMeter, 
-        ConsoleColor outputColour, 
+        string name,
+        double speed,
+        double turnMeter,
+        ConsoleColor outputColour,
         Skill[] skills,
         double health,
         double defence,
@@ -50,19 +49,19 @@ public class Champion
         TurnMeter = turnMeter;
         OutputColour = outputColour;
         IsChampion = isChampion;
-        Skills = skills;
+        Skills = skills.Select(s => s.Clone()).ToArray();
         Health = health;
         BaseDefence = defence;
         BaseAttack = attack;
         Multiplier = multiplier;
         DamageType = damageType;
-        CritDamage = critDamage;
-        CritRate = critRate;
+        BaseCritDamage = critDamage;
+        BaseCritRate = critRate;
         BaseSpeed = speed;
         MaxHp = health;
     }
 
-    public double PerTicTurnMeter() => Speed * 0.07;
+    public double PerTickTurnMeter() => Speed * 0.07;
 
     public void IncrementTurns()
     {
@@ -71,20 +70,17 @@ public class Champion
 
     public double GetValueWithBuffsApplied(ChampionStat affectedStat, double baseValue)
     {
-        var buffs = ActiveBuffs.Where(b => b.AffectedStat == affectedStat).ToArray();
-
         var valueWithBuffsApplied = baseValue;
 
-        foreach (var buff in buffs) 
+        foreach (var buff in ActiveBuffs.Where(b => b.AffectedStat == affectedStat))
         {
-            if (buff.Multiplier != null)
+            if (buff.Multiplier is not null)
                 valueWithBuffsApplied *= buff.Multiplier.Value;
 
-            if (buff.FlatRate != null)
+            if (buff.FlatRate is not null)
                 valueWithBuffsApplied += buff.FlatRate.Value;
         }
 
         return valueWithBuffsApplied;
     }
-
 }

@@ -9,16 +9,18 @@ public static class SkillHelper
             .OrderByDescending(s => s.Priority)
             .FirstOrDefault();
 
-        skill?.CurrentCoolDown = skill.SkillCoolDown;
-        
+        if (skill is not null)
+            skill.CurrentCoolDown = skill.SkillCoolDown;
+
         return skill;
     }
 
-    public static void DecrementSkillCoolDown(Skill skill)
+    public static void TickCooldowns(Champion champion)
     {
-        if (skill.CurrentCoolDown >= 1)
+        foreach (var skill in champion.Skills)
         {
-            skill.CurrentCoolDown--;
+            if (skill.CurrentCoolDown > 0)
+                skill.CurrentCoolDown--;
         }
     }
 }

@@ -1,3 +1,5 @@
+using RaidCalculator.Effects;
+
 namespace RaidCalculator.Results;
 
 public class EffectResult

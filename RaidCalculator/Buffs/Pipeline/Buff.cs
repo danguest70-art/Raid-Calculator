@@ -1,9 +1,9 @@
 namespace RaidCalculator.Buffs;
 
-public abstract class Buff
+public abstract class Buff : ISkillAction
 {
-    public string Name;
-    public int BuffDuration;
+    public string Name { get; }
+    public int BuffDuration { get; }
 
     protected Buff(string name, int duration)
     {
@@ -11,9 +11,14 @@ public abstract class Buff
         BuffDuration = duration;
     }
 
+    public void Execute(ActionContext context, Champion[] champions, Champion caster)
+    {
+        ApplyBuff(context, champions, caster);
+    }
+
     public void ApplyBuff(ActionContext actionContext, Champion[] champions, Champion? caster = null)
     {
-        var pipeline = new BuffPipeline()
+        var pipeline = new BuffPipeline
         {
             Champions = champions,
             Caster = caster,
@@ -21,10 +26,9 @@ public abstract class Buff
             Buff = this
         };
 
-        GetBuffPipeline(pipeline);
-
+        ConfigureBuffPipeline(pipeline);
         pipeline.Run();
     }
 
-    public abstract void GetBuffPipeline(BuffPipeline buffPipeline);
+    public abstract void ConfigureBuffPipeline(BuffPipeline buffPipeline);
 }

@@ -1,73 +1,56 @@
-﻿namespace RaidCalculator;
+﻿namespace RaidCalculator.Helpers;
 
 public static class TurnMeterHelper
 {
     public static Champion CalculateNextTurn(Champion[] champions)
     {
-        var championWithExtraTurn = GetChampionWithExtraTurn(champions);
         Champion nextChampion;
+        var championWithExtraTurn = GetChampionWithExtraTurn(champions);
 
-        if (championWithExtraTurn != null)
+        if (championWithExtraTurn is not null)
         {
-            championWithExtraTurn.ExtraTurns --;
+            championWithExtraTurn.ExtraTurns--;
             nextChampion = championWithExtraTurn;
         }
         else
         {
-            var anyAbove100TurnMeter = CheckForAnyChampionsAbove100TurnMeter(champions);
-
-            if (anyAbove100TurnMeter)
+            if (!champions.Any(c => c.TurnMeter >= 100))
             {
-                AddOneTicTurnMeter(champions);
+                var minTicksTo100 = GetMinTicksTo100(champions);
+                UpdateChampionsTurnMeter(champions, minTicksTo100);
             }
-            else
-            {
-                var minTicksTo100TurnMeter = GetMinTicsTo100(champions);
 
-                UpdateChampionsTurnMeter(champions, minTicksTo100TurnMeter);
-            }
-            
-            nextChampion = champions.MaxBy(champion => champion.TurnMeter);
+            nextChampion = champions.MaxBy(champion => champion.TurnMeter)!;
         }
-         
+
         OutputHelper.OutputStepResults(champions);
         nextChampion.TurnMeter = 0;
-        
         nextChampion.IncrementTurns();
 
         return nextChampion;
     }
 
-    public static void AddOneTicTurnMeter(Champion[] champions)
+    private static double GetMinTicksTo100(Champion[] champions)
     {
-        foreach (Champion champion in champions)
+        return champions.Min(c =>
         {
-            champion.TurnMeter += champion.PerTicTurnMeter();
-        }
+            var perTick = c.PerTickTurnMeter();
+            if (perTick <= 0)
+                return double.MaxValue;
+
+            var remaining = 100 - c.TurnMeter;
+            return remaining <= 0 ? 0 : Math.Ceiling(remaining / perTick);
+        });
     }
 
-    private static bool CheckForAnyChampionsAbove100TurnMeter(Champion[] champions)
+    private static void UpdateChampionsTurnMeter(Champion[] champions, double ticksTo100)
     {
-        return champions.Any(c => c.TurnMeter > 100);
-    }
-
-    private static double GetMinTicsTo100(Champion[] champions)
-    {
-        return champions.Min(c => Math.Ceiling((100 - c.TurnMeter) / c.PerTicTurnMeter()));
-    }
-
-    private static void UpdateChampionsTurnMeter(Champion[] champions, double ticsTo100)
-    {
-        foreach (Champion champion in champions)
-        {
-            champion.TurnMeter += (ticsTo100 * champion.PerTicTurnMeter());
-        }
+        foreach (var champion in champions)
+            champion.TurnMeter += ticksTo100 * champion.PerTickTurnMeter();
     }
 
     private static Champion? GetChampionWithExtraTurn(Champion[] champions)
     {
-        var championWithExtraTurn = champions.FirstOrDefault(c => c.ExtraTurns > 0);
-
-        return championWithExtraTurn;
+        return champions.FirstOrDefault(c => c.ExtraTurns > 0);
     }
 }
